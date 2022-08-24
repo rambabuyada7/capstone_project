@@ -1,0 +1,39 @@
+.bt1 {
+    width: 20vw;
+    height: 10vh;
+    margin: 5vh 5vh;
+    min-width: 200px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    font-weight: bolder;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    min-height: 75vh;
+    z-index: 100;
+    padding: 150px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+#sidebar-wrapper {
+    min-height: 1000vh !important;
+    width: 100vw;
+    margin-left: -1rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+}
+
+#page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+}
