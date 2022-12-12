@@ -6,7 +6,7 @@ router.post('/signup',adminCtrl.signup)
 router.post('/signin',adminCtrl.signin)
 router.get('/',adminCtrl.getAllAdmins)
 
-router.get('/getUsers',auth.authenticateadmin,adminCtrl.getAllUsers)
+router.get('/getUsers',auth.authenticateadmin,adminCtrl.getAllUsers)     // middleware to check admin or not
 router.post('/addUser',auth.authenticateadmin,adminCtrl.addUser)
 router.delete('/deleteUser/:id',auth.authenticateadmin,adminCtrl.deleteOneUser)
 router.put('/updateUser/:id',auth.authenticateadmin,adminCtrl.updateOneUser)

@@ -3,6 +3,10 @@ import Form from 'react-bootstrap/Form';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { validate } from 'email-validator';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
 
 
 const Signup = () => {
@@ -15,8 +19,22 @@ const Signup = () => {
   const [nameHelper,setNameHelper]=useState('')
   const [cpasswordHelper,setCPasswordHelper]=useState('')
   const navigate=useNavigate('/')
+
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "warning",
+        insert: "top-full",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   const handleChange=(e)=>{
-    if(e.target.name=='name'){
+    if(e.target.name==='name'){
       if(e.target.value.length>2){
         setName(e.target.value)
         setNameHelper('')
@@ -26,7 +44,7 @@ const Signup = () => {
         setNameHelper('Should be more than 2 characters')
       }
     }
-    if(e.target.name=='mail'){
+    if(e.target.name==='mail'){
       if(validate(e.target.value)){
         setMail(e.target.value)
         setMailHelper('')
@@ -36,7 +54,7 @@ const Signup = () => {
         setMailHelper('Invalid Email')
       }
     }
-    if(e.target.name=='password'){
+    if(e.target.name==='password'){
       const value=e.target.value
       if(value!==''){
         if(value.length>=8){
@@ -52,11 +70,11 @@ const Signup = () => {
         setPasswordHelper('Please Provide Password' )
       }
     }
-    if(e.target.name=='cpassword'){
+    if(e.target.name==='cpassword'){
       const value=e.target.value
       if(value!==''){
         if(value.length>=8){
-          if(value==password){
+          if(value===password){
             console.log(value)
             setCPassword(value)
             setCPasswordHelper('')
@@ -82,7 +100,7 @@ const Signup = () => {
     
     
       
-   if(password==cpassword){
+   if(password===cpassword){
     const data={
       userName:name,
       userMail:mail,
@@ -95,16 +113,16 @@ const Signup = () => {
       },
       body:JSON.stringify(data)
     }).then(res=>res.json())
-    .then(data=>navigate('/signin')).catch(err=>alert('Invalid Credentials!!'))
+    .then(data=>navigate('/signin')).catch(err=>addnoti('Invalid Credentials!!'))
    }
    else{
-    alert('Confirm Password should be same Password!')
+    addnoti('Confirm Password should be same Password!')
    }
-    
   }
 
   return (
    <center>
+   <ReactNotifications />
      <div style={{paddingTop:'5vh',width:'30vw',minWidth:'350px',height:'80vh'}}>
    <center className='inp pt-5' style={{border:'1px solid black'}}>
     <h1>User Register</h1>

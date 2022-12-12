@@ -7,6 +7,10 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
 
 
 function Coupon() {
@@ -27,7 +31,19 @@ function Coupon() {
   })
   return (data)  
 }  
-
+const addnoti = (msg)=>{
+  Store.addNotification({
+      message: `${msg}`,
+      type: "success",
+      insert: "top-full",
+      container: "top-center",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss:{
+          duration:2000
+      }
+    });
+}
 
 useEffect(()=>{
   (
@@ -40,7 +56,7 @@ useEffect(()=>{
 const provideDiscount=(row)=>{
       fetch('http://localhost:8020/discountData/updateUserCoupon/'+row._id,{
         method:'PUT',
-      }).then(res=>res.json()).then(data=>alert('Code Copied!!'))
+      }).then(res=>res.json()).then(data=>addnoti('Code Copied!!'))
   }
 
  
@@ -60,7 +76,7 @@ else{
     <>
     <NavBar loginStatus={sessionToken.length>1}></NavBar>
     <AboutPage title="Coupons"></AboutPage>
-    
+    <ReactNotifications />
      <center>
      <Table  aria-label="a dense table" className="mt-5" style={{minWidth:'400px',width:'40vw'}}>
         <TableHead>
@@ -83,7 +99,7 @@ else{
               <TableCell align="right">{row.discount}</TableCell>
               
               <TableCell align="right">
-                <Button variant='outline-info' onClick={() => {navigator.clipboard.writeText(row.coupon);alert('Code Copied!!')}}>Copy</Button>
+                <Button variant='outline-info' onClick={() => {navigator.clipboard.writeText(row.coupon);addnoti('Code Copied!!')}}>Copy</Button>
               </TableCell>
             </TableRow>
           ))}

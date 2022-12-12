@@ -11,7 +11,19 @@ import { Store } from 'react-notifications-component';
 function BulkUpload() {
   const sessionToken=localStorage.getItem('token')
   const [selectFile,setSelectFile]=useState(null)
-  
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "info",
+        insert: "top",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
     const submitFile=(e)=>{
     const formData = new FormData();
     formData.append(
@@ -27,12 +39,13 @@ function BulkUpload() {
       body: formData,
     })
       .then((response) => {return response.json();})
-      .then(data=>alert('Upload Success'))
+      .then(data=>addnoti("File Uploaded Successfully"))
       .catch((err) => {console.log(err)});
   }
   
   return (
     <>
+    <ReactNotifications />
     <NavBar loginStatus={sessionToken.length>1}></NavBar>
     <AboutPage title="Bulk Upload"></AboutPage>
     <center>

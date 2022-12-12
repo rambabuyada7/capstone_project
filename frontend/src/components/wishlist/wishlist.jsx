@@ -12,12 +12,28 @@ import { useState} from "react";
 import NavBar from '../navbar/navbar'
 import AboutPage from '../admin/aboutPage/aboutPage';
 import { Button, Container } from 'react-bootstrap';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
 
 
 function WishList() {
   const sessionToken=localStorage.getItem('token')
   const [data, setData] = useState([])
-
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "warning",
+        insert: "top-full",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   //fetching wishlist items
   const getData=async ()=>{
     const user=JSON.parse(localStorage.getItem('data'))
@@ -48,7 +64,7 @@ function WishList() {
         'Content-Type':'application/json'
         ,'Authorization':localStorage.getItem('token')
       }
-    }).then(res=>res.json()).then(data=>console.log(data))
+    }).then(res=>res.json()).then(data=>addnoti('removed from wishlist!!'))
     await getData()
   }
 
@@ -62,7 +78,7 @@ function WishList() {
         ,'Authorization':localStorage.getItem('token')
       },
       body:JSON.stringify(val)
-    }).then(res=>res.json()).then(data=>alert('Added To Cart!!'))
+    }).then(res=>res.json()).then(data=>addnoti('Added To Cart!!'))
     
   }
 
@@ -82,8 +98,9 @@ function WishList() {
     <NavBar loginStatus={sessionToken.length>1}></NavBar>
     <AboutPage title="Wishlist"></AboutPage>
     <center>
+    <ReactNotifications />
     <Container className='mt-5' style={{minWidth:'400px'}}>
-      <Row xs={1} md={2} sm={1} lg={3} className="g-3 ">
+      <Row xs={1} md={2} sm={1} lg={4} className="g-3 ">
       {data.map((element, index) => (
         <Col key={index} className='mb-5'>
 

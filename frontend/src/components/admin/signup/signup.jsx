@@ -3,6 +3,10 @@ import Form from 'react-bootstrap/Form';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { validate } from 'email-validator';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
 
 
 
@@ -17,6 +21,20 @@ const AdminSignup = () => {
   const [nameHelper,setNameHelper]=useState('')
   const [cpasswordHelper,setCPasswordHelper]=useState('')
   const navigate=useNavigate('/')
+  
+ const addnoti = (msg)=>{
+  Store.addNotification({
+      message: `${msg}`,
+      type: "warning",
+      insert: "top-full",
+      container: "top-center",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss:{
+          duration:2000
+      }
+    });
+}
   const handleChange=async (e)=>{
     if(e.target.name=='name'){
       if(e.target.value.length>2){
@@ -97,17 +115,18 @@ const AdminSignup = () => {
         },
         body:JSON.stringify(data)
       }).then(res=>res.json())
-      .then(data=>navigate('/admin/signin')).catch(err=>alert('Admin Already Exists!!'))
+      .then(data=>navigate('/admin/signin')).catch(err=>addnoti('Admin Already Exists!!'))
     }
     else{
-      alert('Confirm Password should be same Password!')
+      addnoti('Confirm Password should be same Password!')
     }
     
   }
 
   return (
     <center>
-      <div  style={{paddingTop:'5vh',width:'30vw',minWidth:'350px',height:'80vh'}}>
+    <ReactNotifications />
+    <div  style={{paddingTop:'5vh',width:'30vw',minWidth:'350px',height:'80vh'}}>
    <center className='inp pt-5' style={{border:'1px solid black'}}>
     <h1>Admin Register</h1>
     <Form className='form1' style={{width:'70%'}}>

@@ -23,7 +23,7 @@ mongoose
     })
     .catch(err => {
         console.error("Connection error", err);
-        process.exit();
+        start
     });
 
 //creating proxy for discount and backend
@@ -32,6 +32,7 @@ app.use('/appData', userProxy)
 const discountProxy = httpProxy.createProxyMiddleware({ target: 'http://localhost:8030', pathRewrite: { '^/discountData': '/' } })
 app.use('/discountData', discountProxy)
 
+
 //bulk upload
 app.post('/bulkUpload', (req, res) => {
     const formidable = require('formidable');
@@ -39,16 +40,16 @@ app.post('/bulkUpload', (req, res) => {
     form.keepExtensions = true;
     form.parse(req, (err, fields, files) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(400).json({ // upto here only csv
                 error: 'file could not be uploaded',
             });
         }
 
         //from csv to json
         csvtojson()
-            .fromFile(files.file.filepath)
-            .then(csvData => {
-                itemModel.insertMany(csvData, (err, rest) => {
+            .fromFile(files.file.filepath) // upn to this csv file
+            .then(csvData => { // json obj
+                itemModel.insertMany(csvData, (err, rest) => { // insertmany to upload to db
                     if (err) { console.log(err); return res.send({ error: err }) }
                     res.send({ message: "Items uploaded Successfully" })
                 });

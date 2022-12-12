@@ -15,6 +15,11 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 // import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
+
 
 
 function Cart() {
@@ -32,7 +37,20 @@ function Cart() {
   const [coupon,setCoupon]=useState([])
   const [couponName,setCouponName]=useState('')
   const navigate=useNavigate()
-
+  
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "warning",
+        insert: "top-full",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   //getting all cart items
   const getData=async ()=>{
     setPrice(0)
@@ -89,14 +107,15 @@ function Cart() {
     if(!address.length){
       // setAlertState(true)
       // setAlert('Address shoudn\'t be empty!')
-      alert('Please provide address')
+      
+      addnoti('Please provide address')
     }
     else{
       for(let i=0;i<data.length;i++){
         if(data[i].quantity<1){
           // setAlertState(true)
           // setAlert('The number of items shouldn\'t be less than 1')
-          alert('The number of items should not be less than 1')
+          addnoti('The number of items should not be less than 1')
           return
         }
       }
@@ -142,9 +161,9 @@ function Cart() {
 
   //coupon being applied
   const changePrice=(val)=>{
-    const validDiscount=coupon.filter((ele)=>ele.coupon==couponName)[0]
+    const validDiscount=coupon.filter((ele)=>ele.coupon===couponName)[0]
     if(!validDiscount){
-      alert('invalid Coupon!!')
+      addnoti('invalid Coupon!!')
     }
     else{
     if(price>0){
@@ -155,7 +174,7 @@ function Cart() {
         },
         body:JSON.stringify(validDiscount)
       }).then(res=>res.json()).then(data=>{
-        alert('discount provided')
+        addnoti('discount provided')
         setPrice(price-Math.round(price*validDiscount.discount/100))
         setDiscount(1)
       })
@@ -167,6 +186,7 @@ function Cart() {
   if(count<1){
     return(
       <>
+       <ReactNotifications />
       <NavBar loginStatus={sessionToken.length>1}></NavBar>
       <AboutPage title="Empty Cart"></AboutPage>
       </>  
@@ -175,17 +195,11 @@ function Cart() {
     
   return (
     <>
+     
     <NavBar loginStatus={sessionToken.length>1}></NavBar>
-
+    <ReactNotifications />
     <AboutPage title="Cart"></AboutPage>
-
-    {/* {
-      (alertState) && (
-        <Alert  variant={'danger'}>
-          <h3><strong>{alert}</strong></h3>
-    </Alert>
-      )
-    } */}
+    
     <div className='mt-5 mb-5 h-100'>
       
       <Container className='mt-5 h-50'>
@@ -195,10 +209,10 @@ function Cart() {
       {data.map((element, index) => (
         <Row key={index} xs={1} md={1} className="g-3" style={{height:'40vh'}}>
         <Col key={index} style={{width:'100%',height:'100%'}}>
-          <Card style={{ width: '100%',height:'100%' ,backgroundColor:'lightblue',border:'2px solid black'}} className="mb-5 rounded inp">
+          <Card style={{ width: '80%',height:'80%' ,backgroundColor:'lightblue',border:'2px solid black'}} className="mb-5 rounded inp">
             <Row className=" h-100 mb-5">
               <Col>
-            <Card.Img variant="top" src={element.image} style={{width:"100%",  height:"100%" , objectFit: "cover",padding:'2vh',boxSizing:'border-box' }} />
+            <Card.Img variant="top" src={element.image} style={{width:"90%",  height:"90%" , objectFit: "cover",padding:'2vh',boxSizing:'border-box' }} />
             </Col>
             <Col>
             <Card.Body style={{textAlign:'left'}}>
@@ -258,7 +272,7 @@ function Cart() {
     <Col style={{border:'2px'}}>
     {
 
-      (discount==0) && (
+      (discount===0) && (
         <>
         <center>
         <Form.Control placeholder='Paste Coupon Here... ' style={{width:'100%'}} type="text" onChange={(e)=>{setCouponName(e.target.value)}}></Form.Control>

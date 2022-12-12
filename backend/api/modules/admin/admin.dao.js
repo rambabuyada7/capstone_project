@@ -60,6 +60,8 @@ const saveUser=(data,done)=>{
         else done(null,{message:"user created by admin successfully"})
     })
 }
+
+
 //get all the users from the table
 const getUsers=(done)=>{
     userModel.find((err,response)=>{

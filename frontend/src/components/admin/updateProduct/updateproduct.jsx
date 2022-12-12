@@ -6,11 +6,28 @@ import AboutPage from '../aboutPage/aboutPage';
 import { useEffect } from 'react';
 import NavBar from '../../navbar/navbar'
 import { useParams } from 'react-router-dom';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
 
 
 function UpdateProduct(){
   const params=useParams()
   const sessionToken=localStorage.getItem('token')
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "warning",
+        insert: "top-full",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -51,7 +68,7 @@ function UpdateProduct(){
           
         },
         body: formData
-      }).then(res=>res.json()).then(data=>alert('Updated Successfully!!')).catch(err=>console.log(err))
+      }).then(res=>res.json()).then(data=>addnoti('Updated Successfully!!')).catch(err=>console.log(err))
       
       // fetch('http://localhost:8010/api/admin/product/addImage',{
       //   method: 'POST',
@@ -84,6 +101,7 @@ return (
 
 
   <>
+  <ReactNotifications />
   <NavBar loginStatus={sessionToken.length>1}></NavBar>
   <AboutPage title="Update Product"></AboutPage>
 

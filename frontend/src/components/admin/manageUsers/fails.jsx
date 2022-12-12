@@ -1,18 +1,17 @@
 
 import React from 'react'
-import {Container,FormControl,Navbar,Dropdown,Nav,Badge, Row} from "react-bootstrap";
+import {Navbar,Dropdown,Nav,Badge, Row} from "react-bootstrap";
 import "./navbar.css"
 import {AiFillShop} from 'react-icons/ai'
 import { FaHeart,FaSignInAlt ,FaShoppingCart} from "react-icons/fa";
 import { GoSignOut} from "react-icons/go";
 import { BsPersonPlusFill } from "react-icons/bs";
 import { MdDashboard } from "react-icons/md";
-import {GiHamburgerMenu } from "react-icons/gi";
-import {BrowserRouter,Route, Link, useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import Stack from 'react-bootstrap/Stack'
-import InputGroup from "react-bootstrap/InputGroup";
+
 import Button from "react-bootstrap/Button";    
-import { useState,useEffect } from 'react';
+
 import Media from 'react-media';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 

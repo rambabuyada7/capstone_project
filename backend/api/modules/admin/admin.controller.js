@@ -102,32 +102,6 @@ const addItem=(req,res)=>{
 }
 
 
-// const BulkUpload=(req,res)=>{
-    
-// 
-//     console.log('here')
-//     let form = new formidable.IncomingForm();
-//     console.log(form)
-//     form.keepExtensions = true;
-//     form.parse(req, (err, fields, files) => {
-//       if (err) {
-//         return res.status(400).json({
-//           error: 'file could not be uploaded',
-//         });
-//       }
-//       //console.log('------------------------------',files.file)
-//       csvtojson()
-//         .fromFile(files.file.filepath)
-//         .then(csvData => {//console.log(csvData)
-//           itemModel.insertMany(csvData, (err, rest) => {
-//             if (err) { console.log(err);return res.send({ message: err }) }
-//             //console.log(err,rest)
-//             res.send({message:"Items uploaded Successfully"})
-//           });
-//         }
-//         );
-//     })
-// }
 
 
 const deleteItem=(req,res)=>{

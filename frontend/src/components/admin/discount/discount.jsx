@@ -7,6 +7,10 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
 
 
 function Discount() {
@@ -49,6 +53,20 @@ function Discount() {
       } 
     )()
   },[])
+  
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "info",
+        insert: "top",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   const provideDiscount=(row)=>{
       fetch('http://localhost:8020/discountData/updateUserCoupon/'+row._id,{
         method:'PUT',
@@ -56,13 +74,14 @@ function Discount() {
           'Content-Type':'application/json'
         },
         body:JSON.stringify({coupon:makeid(),discount:discount})
-      }).then(res=>res.json()).then(data=>alert('Discount Provided!!'))
+      }).then(res=>res.json()).then(data=>addnoti("Discount Coupon Applied"))
   }
 
  
-  if(data.length==0){
+  if(data.length===0){
     return(
       <>
+      <ReactNotifications />
       <NavBar loginStatus={sessionToken.length>1}></NavBar>
       <AboutPage title="No Discount Coupons"></AboutPage>
       

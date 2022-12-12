@@ -32,14 +32,14 @@ function SaleReport() {
             var names=[]
             var sales={}
             for(let i=0;i<data.length;i++){
-                if(names.indexOf(data[i].productName)==-1){
+                if(names.indexOf(data[i].productName)===-1){
                     names=[...names,data[i].productName]
                 }
             }
             names.forEach((value)=>{
                 var arr={}
                 for(let i=0;i<data.length;i++){
-                    if(data[i].productName==value){
+                    if(data[i].productName===value){
                         
                         if('quantity' in arr){
                             console.log(data[i].quantity)

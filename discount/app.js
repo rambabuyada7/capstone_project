@@ -25,7 +25,7 @@ mongoose
         process.exit();
     });
 
-app.put('/updateUserCoupon/:id', (req, res) => {
+app.put('/updateUserCoupon/:id', (req, res) => {                     // to assign coupon to user
     const id = req.params.id
     const body = req.body
     userModel.updateOne({ '_id': id }, { $addToSet: { coupons: body } }, (err, response) => {
@@ -33,7 +33,7 @@ app.put('/updateUserCoupon/:id', (req, res) => {
         else res.send(response)
     })
 })
-app.put('/useUserCoupon/:id', (req, res) => {
+app.put('/useUserCoupon/:id', (req, res) => {                  // to get the coupon so that user can use      
     const id = req.params.id
     const body = req.body
     userModel.updateOne({ '_id': id }, { $pull: { coupons: body } }, (err, response) => {

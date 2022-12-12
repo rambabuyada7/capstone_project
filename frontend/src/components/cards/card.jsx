@@ -9,22 +9,40 @@ import { useState} from "react";
 import { memo } from 'react';
 import { Container } from 'react-bootstrap';
 import '../style.css'
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
 
 
 function CardBody({data}) {
   const [infoData,setInfo]=useState({})
+  
+
+ const addnoti = (msg)=>{
+  Store.addNotification({
+      message: `${msg}`,
+      type: "success",
+      insert: "top-full",
+      container: "top-center",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss:{
+          duration:2000
+      }
+    });
+}
   const infoAdjust=()=>{ 
     var names=[]
     var sales={}
     for(let i=0;i<data.length;i++){
-        if(names.indexOf(data[i].category)==-1){
+        if(names.indexOf(data[i].category)===-1){
           names=[...names,data[i].category]
           sales[data[i].category]=[]
           }
     }
     names.forEach((value)=>{
       for(let i=0;i<data.length;i++){
-          if(data[i].category==value){
+          if(data[i].category===value){
             sales[value]=[...sales[value],data[i]]
           }
         }})
@@ -51,7 +69,7 @@ function CardBody({data}) {
         ,'Authorization':localStorage.getItem('token')
       },
       body:JSON.stringify(val)
-    }).then(res=>res.json()).then(data=> alert('Added to Wishlist!!')).catch(err=>console.log(err))  
+    }).then(res=>res.json()).then(data=> addnoti("added to wishlist!")).catch(err=>console.log(err))  
   }
 
   const addToCart=(val)=>{
@@ -63,7 +81,7 @@ function CardBody({data}) {
         ,'Authorization':localStorage.getItem('token')
       },
       body:JSON.stringify(val)
-    }).then(res=>res.json()).then(data=>alert('Added To Cart!!'))
+    }).then(res=>res.json()).then(data=>addnoti("Added to cart!"))
     
   }
    
@@ -75,8 +93,8 @@ function CardBody({data}) {
       <Row xs={1} md={2} sm={1} lg={3}>
       {data.map((element, index) => (
         <Col key={index} className='my-5 '> 
-          <Card style={{ width: '18rem',border:'2px solid black'}} className="h-100 inp ok rounded" >
-            <Card.Img variant="top" src={element.image} style={{width:"100%",  height:"100%" , objectFit: "cover" ,padding:'2vh' }} />
+          <Card style={{ width: '19rem',border:'2px solid black'}} className="h-100 inp ok rounded" >
+            <Card.Img variant="top" src={element.image} style={{width:"100%",  height:"100%" , objectFit: "cover" }} />
             <Card.Body style={{textAlign:'left'}}>
               <Card.Title>{element.productName}</Card.Title>
               <Card.Text>

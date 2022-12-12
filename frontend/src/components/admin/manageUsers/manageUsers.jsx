@@ -11,11 +11,30 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
+
+
 function ManageUsers() {
   
   const sessionToken=localStorage.getItem('token')
   const navigate=useNavigate()
   const [data,setdata]=useState([])
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "warning",
+        insert: "top-full",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   const getData=()=>{
     fetch('http://localhost:8020/appData/api/admin/getUsers',{
       headers:{
@@ -51,7 +70,7 @@ function ManageUsers() {
       }
     }).then(res=>res.json())
     .then(data=>{
-      alert('User Deleted Successfully!!')
+      addnoti("user deleted successfully")
       console.log(data)
     })
 
@@ -59,9 +78,10 @@ function ManageUsers() {
   
   }
 
-  if(data.length==0){
+  if(data.length===0){
     return(
       <>
+       <ReactNotifications />
       <NavBar loginStatus={sessionToken.length>1}></NavBar>
       <AboutPage title="Manage Users"></AboutPage>
       <h2 className='mt-5'><strong>There are no users available yet</strong></h2>

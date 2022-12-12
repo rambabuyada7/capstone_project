@@ -18,8 +18,8 @@ const Signin = (props) => {
   const addnoti = (msg)=>{
     Store.addNotification({
         message: `${msg}`,
-        type: "info",
-        insert: "top",
+        type: "warning",
+        insert: "top-full",
         container: "top-center",
         animationIn: ["animate__animated", "animate__fadeIn"],
         animationOut: ["animate__animated", "animate__fadeOut"],

@@ -10,8 +10,24 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
 
 function ManageProducts() {
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "info",
+        insert: "top",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   
   const sessionToken=localStorage.getItem('token')
   const navigate=useNavigate()
@@ -44,7 +60,7 @@ function ManageProducts() {
       }
     }).then(res=>res.json())
     .then(data=>{
-      alert('Product Deleted Successfully!!')
+      addnoti("Product Deleted Successfully!!")
       console.log(data)
     }).catch(err=>console.log(err))
     getData()
@@ -52,6 +68,7 @@ function ManageProducts() {
 
   return (
     <>
+    <ReactNotifications />
     <NavBar loginStatus={sessionToken.length>1}></NavBar>
     <AboutPage title="Manage Products"></AboutPage>
     <TableContainer component={Paper}>

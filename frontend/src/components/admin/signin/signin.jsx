@@ -5,6 +5,11 @@ import './signin.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { validate } from 'email-validator';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
+
+
 
 const AdminSignin = (props) => {
   const [mail,setMail]=useState('')
@@ -13,7 +18,7 @@ const AdminSignin = (props) => {
   const [passwordHelper,setPasswordHelper]=useState('')
   const navigate=useNavigate()
   const handleChange=(e)=>{
-    if(e.target.name=='mail'){
+    if(e.target.name==='mail'){
       if(validate(e.target.value)){
         setMail(e.target.value)
         setMailHelper('')
@@ -23,7 +28,7 @@ const AdminSignin = (props) => {
         setMailHelper('Invalid Email')
       }
     }
-    if(e.target.name=='password'){
+    if(e.target.name==='password'){
       const value=e.target.value
       if(value!==''){
         
@@ -43,6 +48,19 @@ const AdminSignin = (props) => {
     
     
   }
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "warning",
+        insert: "top-full",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   const handleOnSubmit=(e)=>{
     e.preventDefault()
     const data={
@@ -64,7 +82,7 @@ const AdminSignin = (props) => {
         navigate('/')
       }
       else{
-        alert('Wrong Credentials!!')
+        addnoti("Enter correct Details")
       }
     })
     
@@ -74,6 +92,7 @@ const AdminSignin = (props) => {
 
   return (
    <center>
+    <ReactNotifications />
     <div style={{marginTop:'10vh',paddingTop:'10vh',width:'30vw',height:'70vh',minWidth:'350px'}}>
     <center className='inp pt-5' style={{border:'1px solid black'}}>
     <h1>Signin</h1>

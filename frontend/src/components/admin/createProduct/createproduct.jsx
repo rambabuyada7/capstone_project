@@ -6,6 +6,9 @@ import AboutPage from '../aboutPage/aboutPage';
 import { useEffect } from 'react';
 import NavBar from '../../navbar/navbar'
 import { useNavigate } from 'react-router-dom';
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { Store } from 'react-notifications-component';
 
 function CreateProduct(){
   const navigate=useNavigate()
@@ -38,6 +41,21 @@ function CreateProduct(){
       
     }
   }, [])
+
+
+  const addnoti = (msg)=>{
+    Store.addNotification({
+        message: `${msg}`,
+        type: "info",
+        insert: "top",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss:{
+            duration:2000
+        }
+      });
+}
   
   const handleOnSubmit=(e)=>{
     e.preventDefault()
@@ -49,7 +67,8 @@ function CreateProduct(){
           'Authorization':localStorage.getItem('token')
         },
         body: formData
-      }).then(res=>res.json()).then(data=>alert('Item Added Successfully!!')).catch(err=>console.log(err))
+      }).then(res=>res.json()).then(data=>
+        addnoti("item added succesfully")).catch(err=>console.log(err))
       
       
       
@@ -76,6 +95,7 @@ return (
 
 
   <>
+  <ReactNotifications />
   <NavBar loginStatus={sessionToken.length>1}></NavBar>
   <AboutPage title="Create Product"></AboutPage>
 
